@@ -6,6 +6,8 @@
 
 	export let playlists: [{ name: string; id: string }];
 
+	let selectedPlaylist: string;
+
 	const fadeOptions = {
 		duration: 300,
 	};
@@ -59,19 +61,33 @@
 	}
 </script>
 
-<hr />
 <p class="p-4">Select one of your playlists to visualise:</p>
-<ul>
-	{#each playlists as { name, id }}
-		{#if name != ''}
-			<li class="pl-4 pb-1.5" transition:fade={fadeOptions}>
-				<button
-					class="hover:text-blue-600"
-					on:click={() => handlePlaylistClick(id)}
-				>
-					{name}
-				</button>
-			</li>
-		{/if}
-	{/each}
-</ul>
+<div class="hidden lg:inline-block">
+	<ul>
+		{#each playlists as { name, id }}
+			{#if name != ''}
+				<li class="pl-4 pb-1.5" transition:fade={fadeOptions}>
+					<button
+						class="hover:text-blue-600"
+						on:click={() => handlePlaylistClick(id)}
+					>
+						{name}
+					</button>
+				</li>
+			{/if}
+		{/each}
+	</ul>
+</div>
+
+<div class="inline-block pl-4 lg:hidden">
+	<select
+		bind:value={selectedPlaylist}
+		on:change={() => handlePlaylistClick(selectedPlaylist)}
+	>
+		{#each playlists as { name, id }}
+			{#if name != ''}
+				<option value={id}>{name}</option>
+			{/if}
+		{/each}
+	</select>
+</div>

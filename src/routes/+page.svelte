@@ -6,7 +6,7 @@
 	import PlaylistGraph from '$lib/PlaylistGraph.svelte';
 </script>
 
-<div class="main">
+<div class="main-mobile lg:main">
 	<div class="header" />
 
 	{#if $tokenStore}
@@ -16,7 +16,7 @@
 	{/if}
 
 	<!-- Generate graph -->
-	<div class="viz" id="viz">
+	<div class="viz-mobile lg:viz" id="viz">
 		{#if $artistToGenresStore.length > 0}
 			<PlaylistGraph artistToGenresData={$artistToGenresStore} />
 		{/if}

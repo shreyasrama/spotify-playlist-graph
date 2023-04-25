@@ -40,7 +40,6 @@
 	let canvas;
 	let width = document.getElementById('viz').clientWidth;
 	let height = document.getElementById('viz').clientHeight;
-	let activeNode = false;
 
 	// Set up our core data as reactive statements
 	$: links = graph.links.map((d) => Object.create(d));
@@ -60,7 +59,6 @@
 	let simulation, context;
 	let dpi = 1;
 	onMount(() => {
-		console.log('Mounting graph');
 		dpi = window.devicePixelRatio || 1;
 		context = canvas.getContext('2d');
 		resize();
@@ -90,12 +88,6 @@
 
 			// Update simulation on ticks
 			.on('tick', simulationUpdate);
-
-		d3.select(context.canvas).on('click', () => {
-			if (activeNode) {
-				console.log(activeNode);
-			}
-		});
 
 		d3.select(canvas)
 			.call(
@@ -159,7 +151,6 @@
 
 	function dragSubject(currentEvent) {
 		// Find the dragged node and apply movement
-		console.log(currentEvent);
 		const node = simulation.find(
 			transform.invertX(currentEvent.x * dpi),
 			transform.invertY(currentEvent.y * dpi),
@@ -224,7 +215,7 @@
 
 <svelte:window on:resize={resize} />
 
-<!-- Chart Canvas -->
+<!-- Chart canvas -->
 <canvas use:fitToContainer bind:this={canvas} />
 
 <!-- Tooltip -->

@@ -51,15 +51,13 @@
 					userStore.set(value.display_name);
 				}
 			});
-		} else {
-			console.log('Token does not exist in store');
 		}
 	});
 </script>
 
 {#if !authed}
-	<div class="login grid grid-cols-2 items-center gap-2">
-		<div class="inline-block">
+	<div class="login grid grid-rows-2 items-center gap-2 lg:grid-cols-2">
+		<div class="flex flex-col items-center justify-center text-center">
 			<h1>Spotify Playlist Graph</h1>
 			<p>
 				Visualise your playlists with a force-directed graph and see
@@ -67,11 +65,13 @@
 			</p>
 			<p>To get started, login with your Spotify account.</p>
 		</div>
-		<button
-			on:click|once={requestAuthorization}
-			class="z-10 h-12 w-52 rounded bg-green-500 text-white"
-		>
-			LOGIN WITH SPOTIFY
-		</button>
+		<div class="flex items-center justify-center">
+			<button
+				on:click|once={requestAuthorization}
+				class="z-10 h-12 w-52 rounded bg-green-500 text-white"
+			>
+				LOGIN WITH SPOTIFY
+			</button>
+		</div>
 	</div>
 {/if}

@@ -2,12 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-.main {
+@layer utilities {
+    .main {
+        display: grid;
+        height: 100vh;
+        width: 100vw;
+        grid-template-columns: 350px auto;
+        grid-template-rows: 3% 1fr 3%;
+        grid-gap: 5px;
+    }
+
+    .sidebar {
+        grid-column-start: 1;
+        grid-column-end: 1;
+    }
+
+    .viz {
+        grid-column-start: 2;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 2;
+        width: auto;
+        height: 100%;
+        align-self: center;
+    }
+}
+
+
+.main-mobile {
     display: grid;
     height: 100vh;
     width: 100vw;
-    grid-template-columns: 350px auto;
-    grid-template-rows: 3% 1fr 3%;
+    grid-template-rows: 3% auto 1fr 3%;
     grid-gap: 5px;
 }
 
@@ -19,6 +45,11 @@
     grid-row-end: 1;
 }
 
+.sidebar-mobile {
+    grid-row-start: 2;
+    grid-row-end: 2;
+}
+
 .login {
     position: fixed;
     top: 50%;
@@ -27,13 +58,11 @@
     /* width: 500px; */
 }
 
-.viz {
-    grid-column-start: 2;
-    grid-row-start: 2;
+.viz-mobile {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 3;
     grid-row-end: 3;
-    width: auto;
-    height: 100%;
-    align-self: center;
 }
 
 .playlistTracks {

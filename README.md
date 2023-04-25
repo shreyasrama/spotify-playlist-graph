@@ -34,12 +34,15 @@ Start the Tailwind server:
 - Add footer
 - Responsive (review Tailwind docs)
     - d3 touch events
-    - Tablet breakpoint
-    - Phone breakpoint
+    - ~~Tablet breakpoint~~ `done`
+    - ~~Phone breakpoint~~ `done`
+    - Header/footer
+    - Set correct initial zoom level
+    - Improve font sizing in viz
 - Review accessibility guidelines and remediate
 - i18n proof of concept
 - Better anims when awaiting promises
 - Bugs/glitches:
     - Stop the SpotifyAuthorization component from appearing for a split second post-callback
-- Clean up console.logs
+- ~~Clean up console.logs~~ `done`
 - Set up Svelte Adapter for target platform
