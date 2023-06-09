@@ -56,9 +56,11 @@
 </script>
 
 {#if !authed}
-	<div class="login grid grid-rows-2 items-center gap-2 lg:grid-cols-2">
+	<div
+		class="fixed left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 grid-rows-2 items-center gap-2 lg:grid-cols-2"
+	>
 		<div class="flex flex-col items-center justify-center text-center">
-			<h1>Spotify Playlist Graph</h1>
+			<h1 class="font-bitter text-3xl">Spotify Playlist Graph</h1>
 			<p>
 				Visualise your playlists with a force-directed graph and see
 				relationships between genres and your artists!
@@ -70,6 +72,11 @@
 				on:click|once={requestAuthorization}
 				class="z-10 h-12 w-52 rounded bg-green-500 text-white"
 			>
+				<img
+					src="/icons/spotify.svg"
+					alt="Spotify icon"
+					class="mr-1 inline h-6 w-6"
+				/>
 				LOGIN WITH SPOTIFY
 			</button>
 		</div>

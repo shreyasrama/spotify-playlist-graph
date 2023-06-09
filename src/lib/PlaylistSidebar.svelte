@@ -20,7 +20,7 @@
 	let promise = loadPlaylists();
 </script>
 
-<div class="sidebar-mobile lg:sidebar">
+<div class="lg:sidebar row-start-1 row-end-1">
 	<div class="hello p-4">
 		{#if $userStore != ''}
 			<p class="text-2xl">Hello, {$userStore}</p>
