@@ -176,8 +176,8 @@ dist
 ### Svelte ###
 # gitignore template for the SvelteKit, frontend web component framework
 # website: https://kit.svelte.dev/
-
 package
+.svelte-kit/
 
 ### yarn ###
 # https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored

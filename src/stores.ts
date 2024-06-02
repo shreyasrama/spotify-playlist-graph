@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 
 export type ArtistToGenres = {
     Artist: string;
+    SpotifyId: string;
     Genres: string[];
 };
 

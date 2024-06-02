@@ -1,3 +1,15 @@
+<svelte:head>
+    <script src="//unpkg.com/force-graph"></script>
+	<script src="//unpkg.com/d3-force"></script>
+	<script src="//unpkg.com/d3-quadtree"></script>
+
+	<style type="text/css">
+		.graph-tooltip {
+			display: none;
+		}
+	</style>
+</svelte:head>
+
 <script>
 	import { artistToGenresStore, tokenStore } from '../stores';
 

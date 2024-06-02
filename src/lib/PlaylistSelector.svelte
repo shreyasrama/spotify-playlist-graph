@@ -8,55 +8,68 @@
 
 	let selectedPlaylist: string;
 
+	// Pagination options
+	let itemLimitSize = 55;
+	let offset = 0;
+
 	const fadeOptions = {
 		duration: 300,
 	};
 
 	// User clicks on a playlist
 	const handlePlaylistClick = async (id: string) => {
-		let playlistTracks = await getPlaylistTracks(id);
-
-		// Get artists from playlist tracks
-		let artists: string[] = [];
-		const maxArraySize = 50;
+		// Reset store
 		artistToGenresStore.set([]);
-		playlistTracks.items.forEach((trackInfo: { track: { artists: any[] } }) => {
-			trackInfo.track.artists.forEach((artist) => {
-				artists.push(artist.id);
-			});
-		});
 
-		// Populate the store with artist and genre data
-		let artistToGenreList: ArtistToGenres[] = [];
-		for (let i = 0; i < artists.length; i += maxArraySize) {
-			const chunkOfArtists = artists.slice(i, i + maxArraySize);
-			const chunkOfArtistsInfo = getArtists(chunkOfArtists);
-			processArtistChunk(chunkOfArtistsInfo).then((value) => {
-				artistToGenreList.concat(...artistToGenreList, value);
-			});
-		}
-		$artistToGenresStore = artistToGenreList;
+		// Call API function to get tracks from playlist
+		let playlistTracksResponse = await getPlaylistTracks(id, itemLimitSize, offset);
+
+		// Get a set of artists from the retrieved playlist tracks
+		let artists = getArtistSetFromPlaylistTracks(playlistTracksResponse);
+
+		// Call API function to get more artist info
+		let artistsResponse = await getArtists(artists);
+
+		// Generate artists to genre mapping by using the retrieved artist info
+		let artistToGenresList = generateArtistToGenreList(artistsResponse);
+
+		// Update store
+		artistToGenresStore.set(artistToGenresList);
 	};
 
-	// We can get a max of 50 artists from one API call at a time, so process that chunk of 50
-	async function processArtistChunk(
-		artistInfo: Promise<any>
-	): Promise<ArtistToGenres[]> {
-		let atgList: ArtistToGenres[] = [];
-		artistInfo.then((artistArray) => {
-			artistArray.artists.forEach(
-				(artist: { name: string; genres: string[] }) => {
-					if (artist.genres.length != 0) {
-						const artistToAdd: ArtistToGenres = {
-							Artist: artist.name,
-							Genres: artist.genres,
-						};
-						$artistToGenresStore = [...$artistToGenresStore, artistToAdd];
-						atgList.push(artistToAdd);
-					}
-				}
-			);
+	// Takes a returned json response of playlist tracks and returns a set of strings containing artist IDs
+	function getArtistSetFromPlaylistTracks(
+		playlistTracks: any
+	) {
+		let artistIds = new Set<string>();
+		playlistTracks.items.forEach(
+			(trackInfo: { track: { artists: any[] } }) => {
+				trackInfo.track.artists.forEach((artist) => {
+					artistIds.add(artist.id);
+				});
 		});
+
+		return artistIds;
+	}
+
+	// Takes a returned json response of artist objects and returns a list of ArtistToGenre objects
+	function generateArtistToGenreList(
+		artists: any
+	) {
+		let atgList: ArtistToGenres[] = [];
+		artists.artists.forEach(
+			(artist: { name: string, id: string, genres: string[] }) => {
+				if (artist.genres.length != 0) {
+					const artistToAdd: ArtistToGenres = {
+						Artist: artist.name,
+						SpotifyId: artist.id,
+						Genres: artist.genres,
+					};						
+					atgList = [...atgList, artistToAdd];
+				}
+			}
+		);
+
 		return atgList;
 	}
 </script>
@@ -82,7 +95,9 @@
 <div class="inline-block pl-4 lg:hidden">
 	<select
 		bind:value={selectedPlaylist}
-		on:change={() => handlePlaylistClick(selectedPlaylist)}
+		on:change={() => 
+			handlePlaylistClick(selectedPlaylist)
+		}
 	>
 		{#each playlists as { name, id }}
 			{#if name != ''}

@@ -18,14 +18,14 @@
 		if (!artistSet.has(artistToGenres.Artist)) {
 			// Add to set and push artist node
 			artistSet.add(artistToGenres.Artist);
-			let artistNode = { id: artistToGenres.Artist, group: 1, weight: 2 };
+			let artistNode = { id: artistToGenres.Artist, spotifyId: artistToGenres.SpotifyId, group: 1, weight: 2 };
 			data.nodes.push(artistNode);
 
 			artistToGenres.Genres.forEach((genre) => {
 				if (!genreSet.has(genre)) {
 					// Add to set and push genre node
 					genreSet.add(genre);
-					let genreNode = { id: genre, group: 2, weight: 1 };
+					let genreNode = { id: genre, name: genre, group: 2, weight: 1 };
 					data.nodes.push(genreNode);
 				} else {
 					// This is a shared genre, so increase the current artist weighting
@@ -52,4 +52,4 @@
 	$dataStore = data;
 </script>
 
-<GraphCanvas graph={data} />
+<GraphCanvas graph={$dataStore} />

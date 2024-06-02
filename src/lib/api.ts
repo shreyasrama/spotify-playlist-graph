@@ -29,11 +29,11 @@ export async function getPlaylists() {
 	return response.json();
 }
 
-export async function getPlaylistTracks(playlistId: string) {
+export async function getPlaylistTracks(playlistId: string, limit: number, offset: number) {
 	let response;
 	if (playlistId) {
 		response = await fetch(
-			apiUrl.concat('/playlists/', playlistId, '/tracks'),
+			apiUrl.concat('/playlists/', playlistId, '/tracks', '?offset=', offset.toString(), '&limit=', limit.toString()),
 			{
 				method: 'GET',
 				headers: headers,
@@ -44,8 +44,8 @@ export async function getPlaylistTracks(playlistId: string) {
 	return response?.json();
 }
 
-export async function getArtists(artistIds: string[]) {
-	const queryParam = artistIds.join(',');
+export async function getArtists(artistIds: Set<string>) {
+	const queryParam = Array.from(artistIds).join(',')
 	const response = await fetch(apiUrl.concat('/artists?ids=', queryParam), {
 		method: 'GET',
 		headers: headers,
