@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { userStore } from '../stores';
+	import { selectedNodeStore, userStore } from '../stores';
 	import { getPlaylists } from './api';
+	import NodeDetails from './NodeDetails.svelte';
 	import PlaylistSelector from './PlaylistSelector.svelte';
 
 	let playlistsResponse: [{ name: string; id: string }] = [
@@ -21,17 +22,20 @@
 </script>
 
 <div class="sidebar-mobile lg:sidebar">
-	<div class="hello p-4">
-		{#if $userStore != ''}
-			<p class="text-2xl">Hello, {$userStore}</p>
-		{/if}
-	</div>
-
 	<div class="playlists">
 		{#await promise}
 			<p>Loading...</p>
 		{:then}
-			<PlaylistSelector playlists={playlistsResponse} />
+			{#if $selectedNodeStore.length > 0}
+				<NodeDetails nodeDetails={$selectedNodeStore}/>
+			{:else}
+				<div class="hello p-4">
+					{#if $userStore != ''}
+						<p class="text-2xl">Hello, {$userStore}</p>
+					{/if}
+				</div>
+				<PlaylistSelector playlists={playlistsResponse} />
+			{/if}
 		{/await}
 	</div>
 </div>

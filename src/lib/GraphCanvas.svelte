@@ -1,5 +1,8 @@
 <script>
 	// @ts-nocheck
+
+	import { selectedNodeStore } from '../stores';
+	
 	export let graph;
 
 	// Use parent div for canvas dimensions
@@ -27,10 +30,6 @@
           const label = node.id;
 		  const fontSize = 16 * node.weight/4;
 
-		  // Draw rectangle behind (text) node
-          //ctx.fillStyle = 'white';
-          //ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
-
 		  ctx.font = `${fontSize}px Sans-Serif`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
@@ -51,14 +50,22 @@
           bckgDimensions && ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
         })
 
-		// Zoom
+		// Node click behaviour
 		Graph
 			.zoom(2)
 			.onNodeClick(node => {
+				// Update store
+				let selectedNode = [{
+					name: node.id,
+					group: node.group == 1 ? "artist" : "genre",
+					spotifyId: node.spotifyId != null ? node.spotifyId : ""
+				}];
+				selectedNodeStore.set(selectedNode);
+				
 				// Center/zoom on node
 				Graph.centerAt(node.x, node.y, 1000);
 
-				// 
+				// Work out a value for the zoom factor (amount)
 				const clamp = (val, min, max) => Math.min(Math.max(val, min), max)
 				let zoomAmount = clamp(60 / node.__fontSize, 3, 1000)
 

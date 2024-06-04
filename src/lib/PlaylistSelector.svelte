@@ -9,7 +9,7 @@
 	let selectedPlaylist: string;
 
 	// Pagination options
-	let itemLimitSize = 55;
+	let itemLimitSize = 60;
 	let offset = 0;
 
 	const fadeOptions = {
@@ -44,9 +44,7 @@
 		let artistIds = new Set<string>();
 		playlistTracks.items.forEach(
 			(trackInfo: { track: { artists: any[] } }) => {
-				trackInfo.track.artists.forEach((artist) => {
-					artistIds.add(artist.id);
-				});
+				artistIds.add(trackInfo.track.artists[0].id)
 		});
 
 		return artistIds;

@@ -19,6 +19,12 @@ export type Link = {
     value: number;
 };
 
+export type SelectedNode = {
+    name: string;
+    group: string;
+    spotifyId: string;
+}
+
 const artistToGenreInit: ArtistToGenres[] = [];
 export const artistToGenresStore = writable(artistToGenreInit);
 
@@ -27,3 +33,6 @@ export const dataStore = writable(dataInit);
 
 export const tokenStore = writable<string | undefined>('');
 export const userStore = writable<string>('');
+
+const selectedNodeInit: SelectedNode[] = [];
+export const selectedNodeStore = writable(selectedNodeInit);
