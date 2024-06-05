@@ -71,6 +71,7 @@
 
 				Graph.zoom(zoomAmount, 2000);
 			})
+			.onNodeHover(node => document.getElementById('viz').style.cursor = node ? 'pointer' : null)
 
 		// Forces
 		//.d3Force('collide', d3.forceCollide(Graph.nodeRelSize()))

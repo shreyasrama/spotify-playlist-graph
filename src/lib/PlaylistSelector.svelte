@@ -2,8 +2,6 @@
 	import { artistToGenresStore, type ArtistToGenres } from '../stores';
 	import { getArtists, getPlaylistTracks } from './api';
 
-	import { fade } from 'svelte/transition';
-
 	export let playlists: [{ name: string; id: string }];
 
 	let selectedPlaylist: string;
@@ -11,10 +9,6 @@
 	// Pagination options
 	let itemLimitSize = 60;
 	let offset = 0;
-
-	const fadeOptions = {
-		duration: 300,
-	};
 
 	// User clicks on a playlist
 	const handlePlaylistClick = async (id: string) => {
@@ -77,7 +71,7 @@
 	<ul>
 		{#each playlists as { name, id }}
 			{#if name != ''}
-				<li class="pl-4 pb-1.5" transition:fade={fadeOptions}>
+				<li class="pl-4 pb-1.5">
 					<button
 						class="hover:text-blue-600"
 						on:click={() => handlePlaylistClick(id)}
